@@ -1,6 +1,12 @@
-# henryheffernan.com
+# Mohd Ali Tahir Portfolio
 
-This is one of two repositories created for my portfolio website <a href="https://henryheffernan.com/"><samp>henryheffernan.com</samp></a>. If you are looking for the 2D OS repository you can find it <a href="https://github.com/henryjeff/portfolio-inner-site"><samp>here</samp></a>! Thanks for taking the time to check this out. If you have any questions of comments, feel free to shoot me an email at <samp><a href="mailto:henryheffernan@gmail.com">henryheffernan@gmail.com</a></samp> or you can DM me on twitter <a href="https://twitter.com/henryheffernan"><samp>@henryheffernan</samp></a>.
+Personal 3D portfolio website source.
+
+Update contact settings with environment variables:
+
+- `FOLIO_EMAIL` for SMTP auth/sender email
+- `FOLIO_PASSWORD` for SMTP auth password
+- `FOLIO_TO_EMAILS` for one or more recipient emails (comma-separated). If omitted, `FOLIO_EMAIL` is used.
 
 <br>
 
@@ -27,3 +33,18 @@ npm run build
 # Serve the build using express
 npm start
 ```
+
+## Deploy (Render)
+
+This repo includes `render.yaml` for one-click deployment on Render.
+
+1. Push this project to GitHub.
+2. In Render, create a new `Blueprint` and select this repo.
+3. Set secret env vars in Render:
+   - `FOLIO_EMAIL` (Gmail address)
+   - `FOLIO_PASSWORD` (Gmail App Password)
+4. Deploy.
+
+Render will run:
+- Build: `npm install && npm run build`
+- Start: `npm start`

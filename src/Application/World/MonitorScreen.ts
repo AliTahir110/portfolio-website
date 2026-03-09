@@ -182,9 +182,8 @@ export default class MonitorScreen extends EventEmitter {
             }
         };
 
-        // Set iframe attributes
-        // PROD
-        iframe.src = 'https://os.henryheffernan.com/';
+        // Set iframe attributes.
+        // Use a local desktop page by default, or override with ?screen=<url>.
         /**
          * Use dev server is query params are present
          *
@@ -193,6 +192,21 @@ export default class MonitorScreen extends EventEmitter {
          * in the iframe, so it will flag a ton of issues.
          */
         const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('screen')) {
+            iframe.src = urlParams.get('screen') || '/screen/index.html';
+        } else {
+            const desktopParams = new URLSearchParams();
+            const resume = urlParams.get('resume');
+            const projects = urlParams.get('projects');
+
+            if (resume) desktopParams.set('resume', resume);
+            if (projects) desktopParams.set('projects', projects);
+
+            const desktopQuery = desktopParams.toString();
+            iframe.src = `/screen/index.html${
+                desktopQuery ? `?${desktopQuery}` : ''
+            }`;
+        }
         if (urlParams.has('dev')) {
             iframe.src = 'http://localhost:3000/';
         }
@@ -204,7 +218,7 @@ export default class MonitorScreen extends EventEmitter {
         iframe.className = 'jitter';
         iframe.id = 'computer-screen';
         iframe.frameBorder = '0';
-        iframe.title = 'HeffernanOS';
+        iframe.title = 'Portfolio Screen';
 
         // Add iframe to container
         container.appendChild(iframe);

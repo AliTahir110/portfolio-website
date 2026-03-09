@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: portfolio-website
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: FOLIO_EMAIL
+        sync: false
+      - key: FOLIO_PASSWORD
+        sync: false
+      - key: FOLIO_TO_EMAILS
+        value: mohdalitahir0@gmail.com

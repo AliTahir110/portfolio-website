@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 const compression = require('compression');
 
 const app = express();
-const port = 8080;
+const port = Number(process.env.PORT) || 8080;
 
 app.use(cors());
 app.use(compression());
@@ -24,6 +24,17 @@ app.use(bodyParser.json());
 // Handle GET requests to /api route
 app.post('/api/send-email', (req, res) => {
     const { name, company, email, message } = req.body;
+    const senderEmail = process.env.FOLIO_EMAIL;
+    const recipientEmails =
+        process.env.FOLIO_TO_EMAILS || 'mohdalitahir0@gmail.com';
+
+    if (!senderEmail || !process.env.FOLIO_PASSWORD) {
+        res.status(500).json({
+            message:
+                'Email transport is not configured. Set FOLIO_EMAIL and FOLIO_PASSWORD.',
+        });
+        return;
+    }
 
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -39,12 +50,12 @@ app.post('/api/send-email', (req, res) => {
         .then(() => {
             transporter
                 .sendMail({
-                    from: `"${name}" <henryheffernan.folio@gmail.com>`, // sender address
-                    to: 'henryheffernan@gmail.com, henryheffernan.folio@gmail.com', // list of receivers
+                    from: `"${name}" <${senderEmail}>`,
+                    to: recipientEmails,
                     subject: `${name} <${email}> ${
                         company ? `from ${company}` : ''
-                    } submitted a contact form`, // Subject line
-                    text: `${message}`, // plain text body
+                    } submitted a contact form`,
+                    text: `${message}`,
                 })
                 .then((info) => {
                     console.log({ info });
@@ -52,12 +63,22 @@ app.post('/api/send-email', (req, res) => {
                 })
                 .catch((e) => {
                     console.error(e);
-                    res.status(500).send(e);
+                    res.status(500).json({
+                        message:
+                            e && e.message
+                                ? e.message
+                                : 'Failed to send email.',
+                    });
                 });
         })
         .catch((e) => {
             console.error(e);
-            res.status(500).send(e);
+            res.status(500).json({
+                message:
+                    e && e.message
+                        ? e.message
+                        : 'Unable to verify email transport.',
+            });
         });
 });
 

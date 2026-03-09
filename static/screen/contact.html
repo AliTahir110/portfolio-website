@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact - Ali Showcase</title>
+    <style>
+        :root {
+            --paper: #eef1f1;
+            --paper-line: #c6cdcd;
+            --ink: #2f3436;
+            --link: #3a1ab3;
+            --chrome: #c4c4c4;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            color: var(--ink);
+            background: #d8d8d8;
+            font-family: "Times New Roman", serif;
+        }
+
+        .window {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #f3f3f3;
+            box-shadow: inset 0 0 0 1px #1e1e1e;
+            background: var(--paper);
+        }
+
+        .titlebar {
+            height: 24px;
+            background: linear-gradient(180deg, #3857d9, #1e34b4);
+            color: #fff;
+            font: 700 12px/1 Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            border-bottom: 1px solid #0d1f76;
+        }
+
+        .title-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .title-icon {
+            width: 12px;
+            height: 12px;
+            border: 1px solid #fff;
+            display: inline-block;
+            background: #153093;
+        }
+
+        .controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .controls span {
+            width: 14px;
+            height: 14px;
+            border: 1px solid #000;
+            background: #d0d0d0;
+            color: #000;
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            line-height: 1;
+        }
+
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            overflow: hidden;
+            border-top: 1px solid #f9f9f9;
+            border-left: 1px solid #f9f9f9;
+            border-right: 1px solid #9d9d9d;
+            border-bottom: 1px solid #9d9d9d;
+            background:
+                radial-gradient(circle at 15% 20%, #f7f8f8, var(--paper) 55%, #e6ebea 100%);
+        }
+
+        .sidebar {
+            padding: 36px 22px;
+            border-right: 1px solid var(--paper-line);
+            font-family: "Courier New", monospace;
+        }
+
+        .sidebar h1 {
+            margin: 0 0 28px 0;
+            font-size: 58px;
+            line-height: 0.84;
+        }
+
+        .sidebar p {
+            margin: 0 0 40px 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            font-size: 44px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .menu button {
+            border: none;
+            background: none;
+            text-align: left;
+            color: var(--link);
+            text-decoration: underline;
+            font: inherit;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .main {
+            overflow: auto;
+            padding: 30px 30px 24px;
+        }
+
+        .main h2 {
+            margin: 0;
+            font-size: 96px;
+            line-height: 0.9;
+        }
+
+        .main p {
+            margin: 10px 0 18px;
+            font-size: 24px;
+            line-height: 1.35;
+            font-family: "Courier New", monospace;
+        }
+
+        .email-row {
+            margin: 8px 0 22px;
+            font: 700 44px/1.3 "Courier New", monospace;
+        }
+
+        .email-row a {
+            color: #0a2cd9;
+            text-decoration: underline;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        label {
+            display: block;
+            font: 700 44px/1.1 "Courier New", monospace;
+            margin-bottom: 6px;
+        }
+
+        .req {
+            color: #d33;
+            margin-right: 8px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid #9fa4a4;
+            background: #f7f8f8;
+            padding: 10px 12px;
+            font: 30px/1.3 "Courier New", monospace;
+            color: #333;
+        }
+
+        textarea {
+            min-height: 170px;
+            resize: vertical;
+        }
+
+        .actions {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .send-btn {
+            border: 1px solid #888;
+            background: #d3d3d3;
+            padding: 10px 24px;
+            cursor: pointer;
+            font: 700 42px/1 "Courier New", monospace;
+        }
+
+        .status {
+            font: 700 28px/1.3 "Courier New", monospace;
+        }
+
+        .status.ok {
+            color: #1b7d2a;
+        }
+
+        .status.err {
+            color: #c03333;
+        }
+
+        .statusbar {
+            height: 22px;
+            border-top: 1px solid #a8a8a8;
+            background: var(--chrome);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            font: 11px Arial, sans-serif;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--paper-line);
+            }
+
+            .sidebar h1 {
+                font-size: 42px;
+            }
+
+            .menu {
+                font-size: 30px;
+            }
+
+            .main h2 {
+                font-size: 62px;
+            }
+
+            label {
+                font-size: 30px;
+            }
+
+            input,
+            textarea {
+                font-size: 22px;
+            }
+
+            .send-btn {
+                font-size: 28px;
+            }
+
+            .email-row {
+                font-size: 28px;
+            }
+
+            .status {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="window">
+        <header class="titlebar">
+            <div class="title-left">
+                <span class="title-icon"></span>
+                <span>Mohd Ali Tahir - Showcase 2026</span>
+            </div>
+            <div class="controls">
+                <span>-</span>
+                <span>[]</span>
+                <span>x</span>
+            </div>
+        </header>
+
+        <main class="content">
+            <aside class="sidebar">
+                <h1>Mohd<br />Ali<br />Tahir</h1>
+                <p>Showcase '26</p>
+                <nav class="menu">
+                    <button data-action="home">Home</button>
+                    <button data-action="about">About</button>
+                    <button data-action="projects">Projects</button>
+                    <button data-action="contact">Contact</button>
+                </nav>
+            </aside>
+
+            <section class="main">
+                <h2>Contact</h2>
+
+                <p>
+                    If you have opportunities or collaboration ideas, feel free to reach out.
+                    You can email me directly or use the form below.
+                </p>
+                <div class="email-row">
+                    Email:
+                    <a href="mailto:mohdalitahir0@gmail.com">mohdalitahir0@gmail.com</a>
+                </div>
+                <div class="email-row">
+                    Ph no.: <a href="tel:+447741047255">+447741047255</a>
+                </div>
+
+                <form id="contact-form" class="form-grid">
+                    <div>
+                        <label><span class="req">*</span>Your name:</label>
+                        <input type="text" name="name" required />
+                    </div>
+                    <div>
+                        <label><span class="req">*</span>Email:</label>
+                        <input type="email" name="email" required />
+                    </div>
+                    <div>
+                        <label>Company (optional):</label>
+                        <input type="text" name="company" />
+                    </div>
+                    <div>
+                        <label><span class="req">*</span>Message:</label>
+                        <textarea name="message" required></textarea>
+                    </div>
+                    <div class="actions">
+                        <button class="send-btn" type="submit">Send Message</button>
+                        <span id="status" class="status"></span>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+        <footer class="statusbar">
+            <span>Copyright 2026 Mohd Ali Tahir</span>
+            <span id="clock"></span>
+        </footer>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const resumeUrl = params.get("resume") || "/files/mohd-ali-tahir-resume.pdf";
+        const projectsUrl = params.get("projects") || "https://github.com/";
+        const contactUrl = params.get("contact") || "mailto:mohdalitahir0@gmail.com";
+
+        const withParams = (path) => {
+            const next = new URL(path, window.location.origin);
+            if (params.get("resume")) next.searchParams.set("resume", params.get("resume"));
+            if (params.get("projects")) next.searchParams.set("projects", params.get("projects"));
+            if (params.get("contact")) next.searchParams.set("contact", params.get("contact"));
+            return next.toString();
+        };
+
+        const openExternal = (url, key) => {
+            window.parent.postMessage({ type: "keydown", key: `_AUTO_${key}` }, "*");
+            window.open(url, "_blank", "noopener,noreferrer");
+        };
+
+        const actionMap = {
+            home: () => (window.location.href = withParams("/screen/index.html")),
+            about: () => (window.location.href = withParams("/screen/about.html")),
+            projects: () =>
+                params.get("projects")
+                    ? openExternal(projectsUrl, "P")
+                    : (window.location.href = withParams("/screen/projects.html")),
+            contact: () => window.scrollTo({ top: 0, behavior: "smooth" }),
+        };
+
+        document.querySelectorAll("[data-action]").forEach((node) => {
+            node.addEventListener("click", () => {
+                const action = node.getAttribute("data-action");
+                if (actionMap[action]) actionMap[action]();
+            });
+        });
+
+        const statusNode = document.getElementById("status");
+        const form = document.getElementById("contact-form");
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const payload = {
+                name: formData.get("name"),
+                email: formData.get("email"),
+                company: formData.get("company"),
+                message: formData.get("message"),
+            };
+
+            statusNode.textContent = "Sending...";
+            statusNode.className = "status";
+
+            try {
+                const response = await fetch("/api/send-email", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    let message = "Unable to send message right now.";
+                    try {
+                        const errorBody = await response.json();
+                        if (errorBody && errorBody.message) {
+                            message = errorBody.message;
+                        }
+                    } catch (_) {}
+                    throw new Error(message);
+                }
+
+                statusNode.textContent = "Message sent successfully.";
+                statusNode.className = "status ok";
+                form.reset();
+            } catch (error) {
+                statusNode.textContent =
+                    error && error.message
+                        ? error.message
+                        : "Failed to send. Please email me directly.";
+                statusNode.className = "status err";
+            }
+        });
+
+        const clock = document.getElementById("clock");
+        const updateClock = () => {
+            clock.textContent = new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+        };
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>

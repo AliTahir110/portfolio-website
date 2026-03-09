@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ali Showcase Desktop</title>
+    <style>
+        :root {
+            --desktop-bg: #2f9ea0;
+            --desktop-bg-dark: #247f82;
+            --window-blue: #000f93;
+            --window-border: #c0c0c0;
+            --taskbar: #c0c0c0;
+            --taskbar-dark: #7e7e7e;
+            --text: #111;
+            --link: #0019d8;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            font-family: "Times New Roman", serif;
+            overflow: hidden;
+            color: var(--text);
+            background: radial-gradient(
+                circle at 20% 20%,
+                var(--desktop-bg),
+                var(--desktop-bg-dark) 65%,
+                #1f6668 100%
+            );
+        }
+
+        .desktop {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #63c7ca;
+            box-shadow: inset 0 0 0 2px #9fe1e4;
+        }
+
+        .desktop-icons {
+            position: absolute;
+            top: 12px;
+            left: 8px;
+            width: 110px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            text-align: center;
+            cursor: pointer;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .desktop-icon .icon-box {
+            width: 34px;
+            height: 34px;
+            border: 1px solid #d9d9d9;
+            background: linear-gradient(180deg, #f4f4f4, #c9c9c9);
+            display: grid;
+            place-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #000f93;
+            margin-bottom: 3px;
+        }
+
+        .window {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(92%, 980px);
+            height: calc(100% - 84px);
+            background: #fff;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title-bar {
+            height: 24px;
+            background: var(--window-blue);
+            border-bottom: 1px solid #5e5e5e;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .title-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .title-controls span {
+            width: 14px;
+            height: 14px;
+            border: 1px solid #000;
+            background: #d0d0d0;
+            color: #000;
+            display: grid;
+            place-items: center;
+            line-height: 1;
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        .window-body {
+            flex: 1;
+            border: 1px solid var(--window-border);
+            position: relative;
+            display: grid;
+            place-items: center;
+            padding: 30px 20px 60px;
+            text-align: center;
+        }
+
+        .headline {
+            font-size: clamp(46px, 6vw, 80px);
+            font-weight: 700;
+            margin: 0;
+            line-height: 0.95;
+            letter-spacing: 0.5px;
+        }
+
+        .subhead {
+            margin: 8px 0 18px;
+            font-size: clamp(28px, 3.2vw, 44px);
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #4b4b4b;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            padding: 8px 14px;
+            margin-bottom: 24px;
+            box-shadow: 3px 3px 0 #b3b3b3;
+        }
+
+        .links {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-family: Arial, sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .links button {
+            border: none;
+            background: transparent;
+            color: var(--link);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+        }
+
+        .window-footer {
+            height: 22px;
+            border-top: 1px solid #b1b1b1;
+            background: #ececec;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            color: #111;
+        }
+
+        .taskbar {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 34px;
+            background: var(--taskbar);
+            border-top: 2px solid #efefef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        .start,
+        .tab,
+        .clock {
+            height: 24px;
+            border: 1px solid var(--taskbar-dark);
+            border-top-color: #fff;
+            border-left-color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            background: #d8d8d8;
+            font-weight: 700;
+        }
+
+        .tab {
+            min-width: 190px;
+            margin-left: 6px;
+            font-weight: 400;
+        }
+
+        .left-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 1024px) {
+            .window {
+                width: calc(100% - 36px);
+                left: 18px;
+                transform: none;
+            }
+
+            .desktop-icons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop">
+        <aside class="desktop-icons">
+            <div class="desktop-icon" data-action="about">
+                <div class="icon-box">A</div>
+                <span>About</span>
+            </div>
+            <div class="desktop-icon" data-action="projects">
+                <div class="icon-box">P</div>
+                <span>Projects</span>
+            </div>
+            <div class="desktop-icon" data-action="resume">
+                <div class="icon-box">R</div>
+                <span>Resume</span>
+            </div>
+            <div class="desktop-icon" data-action="contact">
+                <div class="icon-box">C</div>
+                <span>Contact</span>
+            </div>
+        </aside>
+
+        <section class="window">
+            <div class="title-bar">
+                <span>Mohd Ali Tahir - Showcase 2026</span>
+                <div class="title-controls">
+                    <span>-</span>
+                    <span>[]</span>
+                    <span>x</span>
+                </div>
+            </div>
+            <div class="window-body">
+                <div>
+                    <h1 class="headline">Mohd Ali Tahir</h1>
+                    <p class="subhead">Data Science and AI Engineer</p>
+                    <div class="tag">AliOS</div>
+                    <nav class="links">
+                        <button data-action="about">About</button>
+                        <button data-action="projects">Projects</button>
+                        <button data-action="resume">Resume</button>
+                        <button data-action="contact">Contact</button>
+                    </nav>
+                </div>
+            </div>
+            <div class="window-footer">
+                <span id="copyright">Copyright 2026 Mohd Ali Tahir</span>
+                <span>Ready</span>
+            </div>
+        </section>
+
+        <footer class="taskbar">
+            <div class="left-controls">
+                <div class="start">Start</div>
+                <div class="tab">My Showcase</div>
+            </div>
+            <div class="clock" id="clock"></div>
+        </footer>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const resumeUrl =
+            params.get("resume") || "/files/mohd-ali-tahir-resume.pdf";
+        const projectsUrl = params.get("projects") || "https://github.com/";
+        const contactUrl = params.get("contact") || "mailto:your.email@example.com";
+        const aboutUrl = params.get("about") || "#";
+
+        const openExternal = (url, key) => {
+            window.parent.postMessage({ type: "keydown", key: `_AUTO_${key}` }, "*");
+            if (url === "#") return;
+            window.open(url, "_blank", "noopener,noreferrer");
+        };
+
+        const openInternal = (path) => {
+            window.parent.postMessage({ type: "keydown", key: "_AUTO_A" }, "*");
+            const next = new URL(path, window.location.origin);
+            if (params.get("resume")) next.searchParams.set("resume", params.get("resume"));
+            if (params.get("projects")) next.searchParams.set("projects", params.get("projects"));
+            if (params.get("contact")) next.searchParams.set("contact", params.get("contact"));
+            window.location.href = next.toString();
+        };
+
+        const actionMap = {
+            about: () =>
+                aboutUrl !== "#"
+                    ? openExternal(aboutUrl, "A")
+                    : openInternal("/screen/about.html"),
+            projects: () =>
+                params.get("projects")
+                    ? openExternal(projectsUrl, "P")
+                    : openInternal("/screen/projects.html"),
+            resume: () => openExternal(resumeUrl, "R"),
+            contact: () =>
+                params.get("contact")
+                    ? openExternal(contactUrl, "C")
+                    : openInternal("/screen/contact.html"),
+        };
+
+        document.querySelectorAll("[data-action]").forEach((node) => {
+            node.addEventListener("click", () => {
+                const action = node.getAttribute("data-action");
+                if (actionMap[action]) actionMap[action]();
+            });
+        });
+
+        const clock = document.getElementById("clock");
+        const updateClock = () => {
+            clock.textContent = new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+        };
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>

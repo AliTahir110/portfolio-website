@@ -2,7 +2,6 @@ const path = require('path')
 const { merge } = require('webpack-merge')
 const commonConfiguration = require('./webpack.common.js')
 const ip = require('ip')
-const portFinderSync = require('portfinder-sync')
 
 const infoColor = (_message) =>
 {
@@ -20,13 +19,19 @@ module.exports = merge(
         },
         devServer:
         {
-            host: 'local-ip',
-            port: portFinderSync.getPort(8080),
-            open: true,
+            host: 'localhost',
+            port: 3000,
+            open: false,
             https: false,
             allowedHosts: 'all',
             hot: false,
             watchFiles: ['src/**', 'static/**'],
+            proxy: {
+                '/api': {
+                    target: 'http://localhost:8080',
+                    changeOrigin: true
+                }
+            },
             static:
             {
                 watch: true,

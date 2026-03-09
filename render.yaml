@@ -7,9 +7,9 @@ services:
     startCommand: npm start
     autoDeploy: true
     envVars:
-      - key: FOLIO_EMAIL
+      - key: RESEND_API_KEY
         sync: false
-      - key: FOLIO_PASSWORD
-        sync: false
+      - key: RESEND_FROM_EMAIL
+        value: Portfolio Contact <onboarding@resend.dev>
       - key: FOLIO_TO_EMAILS
         value: mohdalitahir0@gmail.com

@@ -4,9 +4,9 @@ Personal 3D portfolio website source.
 
 Update contact settings with environment variables:
 
-- `FOLIO_EMAIL` for SMTP auth/sender email
-- `FOLIO_PASSWORD` for SMTP auth password
-- `FOLIO_TO_EMAILS` for one or more recipient emails (comma-separated). If omitted, `FOLIO_EMAIL` is used.
+- `RESEND_API_KEY` for Resend API authentication
+- `RESEND_FROM_EMAIL` for sender identity (must be valid for your Resend account/domain)
+- `FOLIO_TO_EMAILS` for one or more recipient emails (comma-separated)
 
 <br>
 
@@ -41,8 +41,9 @@ This repo includes `render.yaml` for one-click deployment on Render.
 1. Push this project to GitHub.
 2. In Render, create a new `Blueprint` and select this repo.
 3. Set secret env vars in Render:
-   - `FOLIO_EMAIL` (Gmail address)
-   - `FOLIO_PASSWORD` (Gmail App Password)
+   - `RESEND_API_KEY`
+   - `RESEND_FROM_EMAIL` (example: `Portfolio Contact <onboarding@resend.dev>`)
+   - `FOLIO_TO_EMAILS` (example: `mohdalitahir0@gmail.com`)
 4. Deploy.
 
 Render will run:

@@ -398,6 +398,8 @@
 
         const statusNode = document.getElementById("status");
         const form = document.getElementById("contact-form");
+        const sendClickAudio = new Audio("/audio/ui/send-message-click.mp3");
+        sendClickAudio.preload = "auto";
         const formStartedAtInput = document.getElementById("form-started-at");
         const resetFormStartTime = () => {
             formStartedAtInput.value = String(Date.now());
@@ -406,6 +408,8 @@
 
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
+            sendClickAudio.currentTime = 0;
+            sendClickAudio.play().catch(() => {});
             const formData = new FormData(form);
             const payload = {
                 name: formData.get("name"),

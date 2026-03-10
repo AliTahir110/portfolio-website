@@ -199,6 +199,14 @@
             flex-wrap: wrap;
         }
 
+        .hp-field {
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
         .send-btn {
             border: 1px solid #888;
             background: #d3d3d3;
@@ -317,6 +325,11 @@
                 </div>
 
                 <form id="contact-form" class="form-grid">
+                    <div class="hp-field" aria-hidden="true">
+                        <label>Website</label>
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+                    </div>
+                    <input type="hidden" name="formStartedAt" id="form-started-at" />
                     <div>
                         <label><span class="req">*</span>Your name:</label>
                         <input type="text" name="name" required />
@@ -385,6 +398,12 @@
 
         const statusNode = document.getElementById("status");
         const form = document.getElementById("contact-form");
+        const formStartedAtInput = document.getElementById("form-started-at");
+        const resetFormStartTime = () => {
+            formStartedAtInput.value = String(Date.now());
+        };
+        resetFormStartTime();
+
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
             const formData = new FormData(form);
@@ -393,6 +412,8 @@
                 email: formData.get("email"),
                 company: formData.get("company"),
                 message: formData.get("message"),
+                website: formData.get("website"),
+                formStartedAt: formData.get("formStartedAt"),
             };
 
             statusNode.textContent = "Sending...";
@@ -419,6 +440,7 @@
                 statusNode.textContent = "Message sent successfully.";
                 statusNode.className = "status ok";
                 form.reset();
+                resetFormStartTime();
             } catch (error) {
                 statusNode.textContent =
                     error && error.message
